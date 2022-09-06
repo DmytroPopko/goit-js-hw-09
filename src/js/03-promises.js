@@ -1,13 +1,7 @@
 import Notiflix from 'notiflix';
 
 function createPromises() {
-  const refs = {
-    firstDelay: document.querySelector('input[name="delay"]'),
-    delayStep: document.querySelector('input[name="step"]'),
-    amount: document.querySelector('input[name="amount"]'),
-    createBtn: document.querySelector('button'),
-    form: document.querySelector('.form'),
-  };
+  const form = document.querySelector('.form');
 
   function createPromise(position, delay) {
     const shouldResolve = Math.random() > 0.3;
@@ -23,7 +17,7 @@ function createPromises() {
     });
   }
 
-  refs.form.addEventListener('submit', event => {
+  form.addEventListener('submit', event => {
     event.preventDefault();
     const {
       elements: { delay, step, amount },
