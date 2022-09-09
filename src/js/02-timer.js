@@ -6,10 +6,6 @@ function simpleTimer() {
   const refs = {
     myInput: document.querySelector('#datetime-picker'),
     startBtn: document.querySelector('[data-start]'),
-    dataDays: document.querySelector('[data-days]'),
-    dataHours: document.querySelector('[data-hours]'),
-    dataMinutes: document.querySelector('[data-minutes]'),
-    dataSeconds: document.querySelector('[data-seconds]'),
     options: {
       enableTime: true,
       time_24hr: true,
@@ -53,7 +49,11 @@ function simpleTimer() {
       this.intervalId = setInterval(() => {
         const deltaTime = startTime - Date.now();
         const time = this.convertMs(deltaTime);
-        console.log('star timer');
+
+        if (deltaTime < 1000) {
+          clearInterval(this.intervalId);
+        }
+
         this.onTick(time);
       }, 1000);
     }
@@ -91,11 +91,10 @@ function simpleTimer() {
 
   refs.startBtn.addEventListener('click', timer.start.bind(timer));
 
-  function updateClockface({ days, hours, minutes, seconds }) {
-    refs.dataDays.textContent = `${days}`;
-    refs.dataHours.textContent = `${hours}`;
-    refs.dataMinutes.textContent = `${minutes}`;
-    refs.dataSeconds.textContent = `${seconds}`;
+  function updateClockface(time) {
+    for (const key in time) {
+      document.querySelector(`[data-${key}]`).textContent = time[key];
+    }
   }
 
   function checkDate(selectedDate) {
